@@ -1,0 +1,155 @@
+/* ESP32 Web Flasher Styles */
+:root { 
+  --bg: #f3f6fa; 
+  --card: #fff; 
+  --accent: #0b84ff; 
+}
+
+body {
+  font-family: Inter, Segoe UI, system-ui, Arial;
+  background: var(--bg);
+  margin: 0;
+  padding: 28px;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  width: 880px;
+  max-width: 95%;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+button.secondary {
+  background: #e6eefc;
+  color: #064a8a;
+}
+
+select,
+input[type=file] {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+input[type=file]:hover {
+  border-color: var(--accent);
+}
+
+#progress {
+  width: 100%;
+  height: 14px;
+  margin-top: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #eef3fb;
+}
+
+#progress > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #3aa0ff);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+pre {
+  background: #0b1220;
+  color: #cfe8ff;
+  padding: 12px;
+  border-radius: 8px;
+  max-height: 240px;
+  overflow: auto;
+  font-size: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 6px;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+}
+
+.muted {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+label {
+  display: block;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.status-connected {
+  background: #10b981;
+}
+
+.status-disconnected {
+  background: #ef4444;
+}
+
+.file-drop {
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.file-drop.dragover {
+  border-color: var(--accent);
+  background: #f0f8ff;
+}

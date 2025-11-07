@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ESP32 Web Flasher — Nâng cao</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="card">
+        <div class="flex-between">
+            <div>
+                <h1>ESP32 Web Flasher — Nâng cao</h1>
+                <div class="muted">Dùng Chrome/Edge. Kết nối USB → chọn firmware → flash.</div>
+            </div>
+            <div>
+                <button id="connectBtn">🔌 Kết nối</button>
+                <button id="disconnectBtn" class="secondary" disabled>⛔ Ngắt</button>
+            </div>
+        </div>
+
+        <hr style="margin:12px 0">
+
+        <div class="row">
+            <div style="flex:1">
+                <label>Firmware từ danh sách (tự động tải)</label>
+                <select id="firmwareList">
+                    <option value="">-- Chọn firmware mẫu --</option>
+                    <option value="sample1">ESP32 Blink LED</option>
+                    <option value="sample2">ESP32 WiFi Scanner</option>
+                    <option value="sample3">ESP32 Web Server</option>
+                </select>
+            </div>
+
+            <div style="flex:1">
+                <label>Hoặc upload file .bin (kéo thả được)</label>
+                <div class="file-drop" id="fileDrop">
+                    <input id="fileInput" type="file" accept=".bin" style="display:none">
+                    <div>Kéo thả file .bin vào đây hoặc <a href="#" id="browseBtn">chọn file</a></div>
+                    <div id="fileName" class="muted" style="margin-top:8px"></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:10px" class="row">
+            <button id="flashBtn" disabled>🚀 Bắt đầu nạp</button>
+            <button id="eraseBtn" class="secondary" disabled>🗑️ Xoá Flash</button>
+            <div style="flex:1"></div>
+            <div id="chipInfo" class="muted">
+                <span class="status-indicator status-disconnected"></span>Chưa kết nối
+            </div>
+        </div>
+
+        <div id="progress" style="margin-top:12px">
+            <i></i>
+        </div>
+        
+        <div class="row" style="margin-top:10px">
+            <div style="flex:1">
+                <div class="muted">Tiến trình: <span id="percent">0%</span></div>
+            </div>
+            <div style="width:260px;text-align:right" class="muted" id="speedInfo">Tốc độ: --</div>
+        </div>
+
+        <h3 style="margin-top:12px;margin-bottom:6px">Log</h3>
+        <pre id="log">Sẵn sàng để kết nối ESP32...</pre>
+
+        <div style="margin-top:10px">
+            <button id="clearLogBtn" class="secondary">🧹 Xoá Log</button>
+            <button id="openOfficialBtn" class="secondary">🌐 Công cụ chính thức</button>
+        </div>
+    </div>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+    
+    <!-- Main Application Script -->
+    <script type="module" src="scripts.js"></script>
+</body>
+</html>
