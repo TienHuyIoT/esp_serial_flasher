@@ -76,23 +76,47 @@ body {
 }
 
 /* ========== Container Styles ========== */
-.container {
-  max-width: 1000px;
+.container-fluid {
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  padding: 1.25rem 1rem;
+  padding: 1rem;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   justify-content: center;
   align-items: center;
 }
 
-/* Make card centered and optimized */
-.container > .card {
+/* Make card optimized for wide screens */
+.container-fluid > .card {
   flex: 0 0 auto;
   width: 100%;
   margin: 0;
+}
+
+/* Compact layout improvements */
+@media (min-width: 1200px) {
+  .container-fluid {
+    padding: 1.5rem;
+  }
+  
+  /* Reduce vertical spacing on large screens */
+  .card-body {
+    padding: 1.5rem !important;
+  }
+  
+  /* Optimize firmware info display */
+  .firmware-info {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  /* Make log terminal taller on wide screens */
+  .log-terminal {
+    min-height: 280px;
+    max-height: 350px;
+  }
 }
 
 /* ========== Card Styles ========== */
@@ -581,13 +605,74 @@ h3, .h5 {
 }
 
 /* ========== Responsive Design ========== */
+
+/* Desktop Optimizations */
+@media (min-width: 1400px) {
+  .container-fluid {
+    max-width: 1500px;
+  }
+  
+  /* More compact spacing on very wide screens */
+  .card-body {
+    padding: 2rem !important;
+  }
+  
+  .log-terminal {
+    height: 320px !important;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .log-terminal {
+    height: 300px !important;
+  }
+  
+  .firmware-info {
+    max-height: 380px;
+  }
+}
+
+/* Medium screens - still keep 2 column layout */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .container-fluid {
+    max-width: 1200px;
+  }
+  
+  .log-terminal {
+    height: 250px !important;
+  }
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+  .container-fluid {
+    padding: 1rem;
+  }
+
+  .card-body {
+    padding: 1.25rem !important;
+  }
+
+  .log-terminal {
+    height: 220px !important;
+  }
+  
+  /* Single column layout for tablets */
+  .col-xl-5, .col-xl-7 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   body {
     padding: 0;
   }
 
-  .container {
-    padding: 1rem;
+  .container-fluid {
+    padding: 0.75rem;
   }
 
   .card-body {
@@ -604,18 +689,22 @@ h3, .h5 {
   }
 
   .file-drop {
-    padding: 1.5rem 1rem;
-    min-height: 130px;
+    padding: 1rem;
+    min-height: 100px;
   }
 
   .log-terminal {
-    max-height: 220px;
+    height: 200px !important;
     font-size: 0.8rem;
-    padding: 1rem;
+    padding: 0.75rem;
   }
 
   .flash-address-input {
     width: 95px;
+  }
+  
+  .firmware-info {
+    max-height: 300px;
   }
 }
 
