@@ -10,7 +10,19 @@
       "size": "198KB",
       "version": "1.3.1",
       "category": "Power Management",
-      "note": "Phù hợp cho ESP32 module và board phát triển"
+      "note": "Phù hợp cho ESP32 module và board phát triển",
+      "hardware_version": "ESP32",
+      "hardware_info": {
+        "chip": "ESP32",
+        "flash_size": "4MB",
+        "compatible_boards": ["ESP32 DevKit", "ESP32 WROOM", "ESP32 NodeMCU"],
+        "minimum_requirements": {
+          "flash": "1MB",
+          "ram": "320KB"
+        },
+        "gpio_requirements": ["GPIO2 for LED", "GPIO0 for wake-up button"],
+        "power_requirements": "3.3V, low power design"
+      }
     },
     {
       "id": "xiaozhi_music_v2.0.4",
@@ -22,7 +34,31 @@
       "size": "8,743KB",
       "version": "2.0.4",
       "category": "AI Xiaozhi",
-      "note": "Chỉ dành cho ESP32-S3 module"
+      "note": "Chỉ dành cho ESP32-S3 module",
+      "hardware_version": "ESP32-S3",
+      "hardware_info": {
+        "chip": "ESP32-S3",
+        "flash_size": "16MB",
+        "compatible_boards": ["TienHuyIoT Xiaozhi Music Board", "ESP32-S3 DevKit"],
+        "minimum_requirements": {
+          "flash": "8MB",
+          "ram": "512KB",
+          "psram": "2MB"
+        },
+        "gpio_requirements": [
+          "I2S for audio output",
+          "I2C for OLED display",
+          "GPIO for touch buttons",
+          "UART for debugging"
+        ],
+        "power_requirements": "5V via USB or 3.7V Li-Po battery",
+        "special_features": [
+          "Built-in OLED display (128x64)",
+          "Audio codec support",
+          "Touch button interface",
+          "Battery management"
+        ]
+      }
     }
   ],
   "categories": [

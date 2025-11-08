@@ -1050,10 +1050,29 @@ html {
                                     </button>
                                 </div>
                                 <div class="small text-muted mb-2" id="firmwareDescription"></div>
-                                <div class="d-flex gap-3 small text-muted">
+                                <div class="d-flex gap-3 small text-muted mb-2">
                                     <span><i class="bi bi-hdd me-1"></i><span id="firmwareSize"></span></span>
                                     <span><i class="bi bi-geo-alt me-1"></i><span id="firmwareAddress"></span></span>
                                     <span><i class="bi bi-tag me-1"></i><span id="firmwareVersion"></span></span>
+                                </div>
+                                <!-- Hardware Info Section -->
+                                <div id="hardwareInfo" class="small border-top pt-2 mt-2" style="border-color: rgba(102, 126, 234, 0.2) !important;">
+                                    <div class="fw-semibold text-secondary mb-1">
+                                        <i class="bi bi-cpu me-1"></i>Thông tin phần cứng:
+                                    </div>
+                                    <div class="d-flex gap-3 mb-1">
+                                        <span class="text-muted"><i class="bi bi-motherboard me-1"></i><span id="hardwareChip"></span></span>
+                                        <span class="text-muted"><i class="bi bi-memory me-1"></i><span id="hardwareFlashSize"></span></span>
+                                    </div>
+                                    <div class="mb-1">
+                                        <span class="text-muted small"><i class="bi bi-tools me-1"></i>Board tương thích: <span id="hardwareBoards"></span></span>
+                                    </div>
+                                    <div class="mb-1">
+                                        <span class="text-muted small"><i class="bi bi-lightning me-1"></i>Nguồn: <span id="hardwarePower"></span></span>
+                                    </div>
+                                    <div id="hardwareSpecialFeatures" class="small text-info d-none">
+                                        <i class="bi bi-star me-1"></i>Tính năng đặc biệt: <span id="specialFeaturesList"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1349,7 +1368,19 @@ const EMBEDDED_FIRMWARE_DATABASE = {
       "size": "198KB",
       "version": "1.3.1",
       "category": "Power Management",
-      "note": "Phù hợp cho ESP32 module và board phát triển"
+      "note": "Phù hợp cho ESP32 module và board phát triển",
+      "hardware_version": "ESP32",
+      "hardware_info": {
+        "chip": "ESP32",
+        "flash_size": "4MB",
+        "compatible_boards": ["ESP32 DevKit", "ESP32 WROOM", "ESP32 NodeMCU"],
+        "minimum_requirements": {
+          "flash": "1MB",
+          "ram": "320KB"
+        },
+        "gpio_requirements": ["GPIO2 for LED", "GPIO0 for wake-up button"],
+        "power_requirements": "3.3V, low power design"
+      }
     },
     {
       "id": "xiaozhi_music_v2.0.4",
@@ -1361,7 +1392,31 @@ const EMBEDDED_FIRMWARE_DATABASE = {
       "size": "8,743KB",
       "version": "2.0.4",
       "category": "AI Xiaozhi",
-      "note": "Chỉ dành cho ESP32-S3 module"
+      "note": "Chỉ dành cho ESP32-S3 module",
+      "hardware_version": "ESP32-S3",
+      "hardware_info": {
+        "chip": "ESP32-S3",
+        "flash_size": "16MB",
+        "compatible_boards": ["TienHuyIoT Xiaozhi Music Board", "ESP32-S3 DevKit"],
+        "minimum_requirements": {
+          "flash": "8MB",
+          "ram": "512KB",
+          "psram": "2MB"
+        },
+        "gpio_requirements": [
+          "I2S for audio output",
+          "I2C for OLED display",
+          "GPIO for touch buttons",
+          "UART for debugging"
+        ],
+        "power_requirements": "5V via USB or 3.7V Li-Po battery",
+        "special_features": [
+          "Built-in OLED display (128x64)",
+          "Audio codec support",
+          "Touch button interface",
+          "Battery management"
+        ]
+      }
     }
   ],
   "categories": [
@@ -1479,16 +1534,66 @@ function showFirmwareInfo(firmware) {
     const firmwareAddress = document.getElementById('firmwareAddress');
     const firmwareVersion = document.getElementById('firmwareVersion');
     
+    // Hardware info elements
+    const hardwareInfo = document.getElementById('hardwareInfo');
+    const hardwareChip = document.getElementById('hardwareChip');
+    const hardwareFlashSize = document.getElementById('hardwareFlashSize');
+    const hardwareBoards = document.getElementById('hardwareBoards');
+    const hardwarePower = document.getElementById('hardwarePower');
+    const hardwareSpecialFeatures = document.getElementById('hardwareSpecialFeatures');
+    const specialFeaturesList = document.getElementById('specialFeaturesList');
+    
     if (!firmware) {
         firmwareInfo.classList.add('d-none');
         return;
     }
     
+    // Basic firmware info
     firmwareName.textContent = firmware.name;
     firmwareDescription.textContent = firmware.description;
     firmwareSize.textContent = firmware.size;
     firmwareAddress.textContent = firmware.flashAddress;
     firmwareVersion.textContent = `v${firmware.version}`;
+    
+    // Hardware info
+    if (firmware.hardware_info) {
+        const hwInfo = firmware.hardware_info;
+        
+        hardwareChip.textContent = hwInfo.chip || firmware.hardware_version || 'Unknown';
+        hardwareFlashSize.textContent = hwInfo.flash_size || 'N/A';
+        
+        // Compatible boards
+        if (hwInfo.compatible_boards && hwInfo.compatible_boards.length > 0) {
+            hardwareBoards.textContent = hwInfo.compatible_boards.join(', ');
+        } else {
+            hardwareBoards.textContent = 'N/A';
+        }
+        
+        // Power requirements
+        hardwarePower.textContent = hwInfo.power_requirements || 'N/A';
+        
+        // Special features
+        if (hwInfo.special_features && hwInfo.special_features.length > 0) {
+            specialFeaturesList.textContent = hwInfo.special_features.join(', ');
+            hardwareSpecialFeatures.classList.remove('d-none');
+        } else {
+            hardwareSpecialFeatures.classList.add('d-none');
+        }
+        
+        hardwareInfo.classList.remove('d-none');
+    } else {
+        // If no hardware info, show basic hardware version if available
+        if (firmware.hardware_version) {
+            hardwareChip.textContent = firmware.hardware_version;
+            hardwareFlashSize.textContent = 'N/A';
+            hardwareBoards.textContent = 'N/A';
+            hardwarePower.textContent = 'N/A';
+            hardwareSpecialFeatures.classList.add('d-none');
+            hardwareInfo.classList.remove('d-none');
+        } else {
+            hardwareInfo.classList.add('d-none');
+        }
+    }
     
     // Update flash address input
     flashAddressInput.value = firmware.flashAddress;

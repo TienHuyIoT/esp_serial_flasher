@@ -291,16 +291,66 @@ function showFirmwareInfo(firmware) {
     const firmwareAddress = document.getElementById('firmwareAddress');
     const firmwareVersion = document.getElementById('firmwareVersion');
     
+    // Hardware info elements
+    const hardwareInfo = document.getElementById('hardwareInfo');
+    const hardwareChip = document.getElementById('hardwareChip');
+    const hardwareFlashSize = document.getElementById('hardwareFlashSize');
+    const hardwareBoards = document.getElementById('hardwareBoards');
+    const hardwarePower = document.getElementById('hardwarePower');
+    const hardwareSpecialFeatures = document.getElementById('hardwareSpecialFeatures');
+    const specialFeaturesList = document.getElementById('specialFeaturesList');
+    
     if (!firmware) {
         firmwareInfo.classList.add('d-none');
         return;
     }
     
+    // Basic firmware info
     firmwareName.textContent = firmware.name;
     firmwareDescription.textContent = firmware.description;
     firmwareSize.textContent = firmware.size;
     firmwareAddress.textContent = firmware.flashAddress;
     firmwareVersion.textContent = `v${firmware.version}`;
+    
+    // Hardware info
+    if (firmware.hardware_info) {
+        const hwInfo = firmware.hardware_info;
+        
+        hardwareChip.textContent = hwInfo.chip || firmware.hardware_version || 'Unknown';
+        hardwareFlashSize.textContent = hwInfo.flash_size || 'N/A';
+        
+        // Compatible boards
+        if (hwInfo.compatible_boards && hwInfo.compatible_boards.length > 0) {
+            hardwareBoards.textContent = hwInfo.compatible_boards.join(', ');
+        } else {
+            hardwareBoards.textContent = 'N/A';
+        }
+        
+        // Power requirements
+        hardwarePower.textContent = hwInfo.power_requirements || 'N/A';
+        
+        // Special features
+        if (hwInfo.special_features && hwInfo.special_features.length > 0) {
+            specialFeaturesList.textContent = hwInfo.special_features.join(', ');
+            hardwareSpecialFeatures.classList.remove('d-none');
+        } else {
+            hardwareSpecialFeatures.classList.add('d-none');
+        }
+        
+        hardwareInfo.classList.remove('d-none');
+    } else {
+        // If no hardware info, show basic hardware version if available
+        if (firmware.hardware_version) {
+            hardwareChip.textContent = firmware.hardware_version;
+            hardwareFlashSize.textContent = 'N/A';
+            hardwareBoards.textContent = 'N/A';
+            hardwarePower.textContent = 'N/A';
+            hardwareSpecialFeatures.classList.add('d-none');
+            hardwareInfo.classList.remove('d-none');
+        } else {
+            hardwareInfo.classList.add('d-none');
+        }
+    }
     
     // Update flash address input
     flashAddressInput.value = firmware.flashAddress;
