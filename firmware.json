@@ -51,12 +51,10 @@
           "GPIO for touch buttons",
           "UART for debugging"
         ],
-        "power_requirements": "5V via USB or 3.7V Li-Po battery",
+        "power_requirements": "5V via USB",
         "special_features": [
           "Built-in OLED display (128x64)",
-          "Audio codec support",
-          "Touch button interface",
-          "Battery management"
+          "Audio codec support"
         ]
       }
     }
